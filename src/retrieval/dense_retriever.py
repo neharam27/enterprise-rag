@@ -30,9 +30,9 @@ def dense_search(query: str, user_role: str, top_k: int = 20) -> list[dict]:
         ]
     )
 
-    results = client.search(
+    response = client.query_points(
         collection_name=COLLECTION,
-        query_vector=query_vector,
+        query=query_vector,
         query_filter=rbac_filter,
         limit=top_k,
         with_payload=True
@@ -49,5 +49,5 @@ def dense_search(query: str, user_role: str, top_k: int = 20) -> list[dict]:
             "score":          r.score,
             "retriever":      "dense"
         }
-        for r in results
+        for r in response.points
     ]
