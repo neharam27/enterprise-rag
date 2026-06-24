@@ -1,10 +1,10 @@
 import sqlite3
 from pathlib import Path
-from passlib.context import CryptContext
+import bcrypt
 from contextlib import contextmanager
 
 DB_PATH = Path("data/app.db")
-pwd_context = CryptContext(schemes=["bcrypt"], deprecated="auto")
+
 
 @contextmanager
 def get_db():
@@ -29,12 +29,13 @@ def init_db():
         """)
         conn.commit()
     print("  Database initialized: users table ready")
-
+    
 def hash_password(password: str) -> str:
-    return pwd_context.hash(password)
+    hashed = bcrypt.hashpw(password.encode("utf-8"), bcrypt.gensalt())
+    return hashed.decode("utf-8")
 
 def verify_password(plain_password: str, hashed_password: str) -> bool:
-    return pwd_context.verify(plain_password, hashed_password)
+    return bcrypt.checkpw(plain_password.encode("utf-8"), hashed_password.encode("utf-8"))
 
 def create_user(username: str, password: str, role: str):
     if role not in ("admin", "analyst", "viewer"):
