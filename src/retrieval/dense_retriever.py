@@ -10,7 +10,8 @@ COLLECTION  = os.getenv("QDRANT_COLLECTION_NAME", "enterprise_docs")
 EMBED_MODEL = os.getenv("OLLAMA_EMBED_MODEL", "nomic-embed-text")
 QDRANT_URL  = os.getenv("QDRANT_URL", "http://localhost:6333")
 
-embeddings = OllamaEmbeddings(model=EMBED_MODEL)
+OLLAMA_BASE_URL = os.getenv("OLLAMA_BASE_URL", "http://localhost:11434")
+embeddings = OllamaEmbeddings(model=EMBED_MODEL, base_url=OLLAMA_BASE_URL)
 client     = QdrantClient(url=QDRANT_URL)
 
 def dense_search(query: str, user_role: str, top_k: int = 20) -> list[dict]:

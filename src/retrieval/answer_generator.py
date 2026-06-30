@@ -2,7 +2,10 @@ from langchain_ollama import OllamaLLM
 import os
 import re
 
-llm = OllamaLLM(model=os.getenv("OLLAMA_LLM_MODEL", "llama3.1"))
+llm = OllamaLLM(
+    model=os.getenv("OLLAMA_LLM_MODEL", "llama3.1"),
+    base_url=os.getenv("OLLAMA_BASE_URL", "http://localhost:11434")
+)
 
 GROUNDED_ANSWER_PROMPT = """You are a precise enterprise document assistant. Answer the question using ONLY the context below.
 

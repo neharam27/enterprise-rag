@@ -53,8 +53,10 @@ def rerank_with_llm(query: str, chunks: list[dict], top_k: int = 5) -> list[dict
     Note: For production, swap this with a dedicated cross-encoder like
     'cross-encoder/ms-marco-MiniLM-L-6-v2' via sentence-transformers for speed.
     """
-    llm = OllamaLLM(model=os.getenv("OLLAMA_LLM_MODEL", "llama3.1"))
-
+    llm = OllamaLLM(
+    model=os.getenv("OLLAMA_LLM_MODEL", "llama3.1"),
+    base_url=os.getenv("OLLAMA_BASE_URL", "http://localhost:11434")
+)
     candidates = chunks[:15]  # only rerank top 15 from RRF
     scored = []
 

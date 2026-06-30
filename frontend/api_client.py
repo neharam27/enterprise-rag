@@ -1,6 +1,7 @@
+import os
 import requests
 
-BASE_URL = "http://localhost:8000"
+BASE_URL = os.getenv("BACKEND_URL", "http://localhost:8000")
 
 def login(username: str, password: str) -> dict | None:
     try:
